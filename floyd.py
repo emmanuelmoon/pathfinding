@@ -7,8 +7,8 @@ window_height = 500
 
 window = pygame.display.set_mode((window_width, window_height))
 
-columns = 10
-rows = 10
+columns = 20
+rows = 20
 
 box_width = window_width // columns
 box_height = window_height // rows
@@ -64,19 +64,17 @@ def floyd_warshall(target_box):
     u = 0
     v = 0
     nodes = []
-    for i in range(10):
-        for j in range(10):
+    for i in range(columns):
+        for j in range(rows):
             nodes.append(grid[i][j])
 
     V = len(nodes)
-
     distance = [[float("inf") for _ in range(V)] for _ in range(V)]
     prev = [[None for _ in range(V)] for _ in range(V)]
+
     for i in range(V):
         for j in range(V):
-            if nodes[i] == start_box:
-                u = i
-            elif nodes[i] == target_box:
+            if nodes[i].target:
                 v = i
             # If the nodes are neighbors, set the distance to 1
             if nodes[i] in nodes[j].neighbours and not nodes[i].wall and not nodes[j].wall:
@@ -90,14 +88,16 @@ def floyd_warshall(target_box):
     # Iterate through all nodes in the list
     for k in range(V):
         # Update the distance matrix based on the current node
+        if nodes[k].wall:
+            continue
         for i in range(V):
+            if nodes[i].wall:
+                continue
             for j in range(V):
-                if distance[i][j] > distance[i][k] + distance[k][j] and not nodes[i].wall and not nodes[j].wall and not nodes[k].wall:
+                if distance[i][j] > distance[i][k] + distance[k][j]:
                     distance[i][j] = distance[i][k] + distance[k][j]
                     prev[i][j] = prev[k][j]
-    print(u, v)
     if prev[u][v] is None:
-        print("yes")
         Tk().wm_withdraw()
         messagebox.showinfo("No Solution", "There is no solution!")
     path.insert(0, nodes[v])
