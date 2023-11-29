@@ -84,12 +84,17 @@ def main():
                     j = y // box_height
                     grid[i][j].wall = True
                 # Set Target
-                if event.buttons[2] and not target_box_set:
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 3 and not target_box_set:
                     i = x // box_width
                     j = y // box_height
                     target_box = grid[i][j]
                     target_box.target = True
                     target_box_set = True
+                elif event.button == 1:
+                    i = x // box_width
+                    j = y // box_height
+                    grid[i][j].wall = True
             # Start Algorithm
             if event.type == pygame.KEYDOWN and target_box_set:
                 begin_search = True

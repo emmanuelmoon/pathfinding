@@ -68,12 +68,10 @@ def floyd_warshall(target_box):
         for j in range(10):
             nodes.append(grid[i][j])
 
-    V = len(nodes)
-    print(V)
+    V = len(nodes)\
 
     distance = [[float("inf") for _ in range(V)] for _ in range(V)]
     prev = [[None for _ in range(V)] for _ in range(V)]
-    print(prev)
     for i in range(V):
         for j in range(V):
             if nodes[i] == start_box:
@@ -89,8 +87,6 @@ def floyd_warshall(target_box):
     for i in range(V):
         distance[i][i] = 0
         prev[i][i] = i
-
-    print(v)
     # Iterate through all nodes in the list
     for k in range(V):
         # Update the distance matrix based on the current node
@@ -105,11 +101,9 @@ def floyd_warshall(target_box):
         Tk().wm_withdraw()
         messagebox.showinfo("No Solution", "There is no solution!")
     path.insert(0, nodes[v])
-    print(prev)
     while u != v:
         v = prev[u][v]
         path.insert(0, nodes[v])
-    print(path)
 
 
 def main():
@@ -132,12 +126,17 @@ def main():
                     j = y // box_height
                     grid[i][j].wall = True
                 # Set Target
-                if event.buttons[2] and not target_box_set:
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 3 and not target_box_set:
                     i = x // box_width
                     j = y // box_height
                     target_box = grid[i][j]
                     target_box.target = True
                     target_box_set = True
+                elif event.button == 1:
+                    i = x // box_width
+                    j = y // box_height
+                    grid[i][j].wall = True
             # Start Algorithm
             if event.type == pygame.KEYDOWN and target_box_set:
                 floyd_warshall(target_box)
