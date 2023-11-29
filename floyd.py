@@ -68,7 +68,7 @@ def floyd_warshall(target_box):
         for j in range(10):
             nodes.append(grid[i][j])
 
-    V = len(nodes)\
+    V = len(nodes)
 
     distance = [[float("inf") for _ in range(V)] for _ in range(V)]
     prev = [[None for _ in range(V)] for _ in range(V)]
