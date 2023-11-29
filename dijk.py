@@ -2,8 +2,8 @@ from tkinter import messagebox, Tk
 import pygame
 import sys
 
-window_width = 800
-window_height = 800
+window_width = 500
+window_height = 500
 
 window = pygame.display.set_mode((window_width, window_height))
 
